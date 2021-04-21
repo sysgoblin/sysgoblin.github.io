@@ -1,0 +1,33 @@
+{
+  "name": "sysgoblin.github.io",
+  "version": "1.0.0",
+  "description": "blog ennit",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sysgoblin/sysgoblin.github.io.git"
+  },
+  "author": "sysgoblin",
+  "license": "MIT",
+  "devDependencies": {
+    "@limdongjin/vuepress-plugin-simple-seo": "1.0.4-alpha.5",
+    "@vuepress/plugin-active-header-links": "1.8.2",
+    "@vuepress/plugin-back-to-top": "1.8.2",
+    "@vuepress/plugin-blog": "1.9.4",
+    "@vuepress/plugin-google-analytics": "1.8.2",
+    "@vuepress/theme-blog": "2.3.3",
+    "esm": "3.2.25",
+    "typescript": "4.2.4",
+    "vuepress": "^1.8.2",
+    "vuepress-plugin-reading-time": "0.1.1",
+    "vuepress-plugin-typescript": "0.3.1",
+    "vuepress-types": "0.9.4"
+  }
+}

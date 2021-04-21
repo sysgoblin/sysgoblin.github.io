@@ -1,0 +1,8 @@
+node_modules
+*.log
+.vscode
+.temp
+/vuepress
+/docs/.vuepress/dist
+packages/@vuepress/shared-utils/lib/
+packages/@vuepress/shared-utils/types/
