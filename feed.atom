@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://sysgoblin.github.io</id>
+    <title>rm -rf lol</title>
+    <updated>2021-04-21T20:35:45.161Z</updated>
+    <generator>https://github.com/webmasterish/vuepress-plugin-feed</generator>
+    <link rel="alternate" href="https://sysgoblin.github.io"/>
+    <link rel="self" href="https://sysgoblin.github.io/feed.atom"/>
+    <subtitle>...</subtitle>
+    <entry>
+        <title type="html"><![CDATA[16Shop Victim Analysis]]></title>
+        <id>https://sysgoblin.github.io/2020/05/12/_16shop-victim-analysis.html</id>
+        <link href="https://sysgoblin.github.io/2020/05/12/_16shop-victim-analysis.html">
+        </link>
+        <updated>2020-05-12T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[{{$page.readingTime.text}}...]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[FreakzBrothers: Revenge of the Nerd(face)]]></title>
+        <id>https://sysgoblin.github.io/2020/08/10/freakzbrothers-revenge-of-the-nerdface.html</id>
+        <link href="https://sysgoblin.github.io/2020/08/10/freakzbrothers-revenge-of-the-nerdface.html">
+        </link>
+        <updated>2020-08-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This post will go in to detail on how the kit works from both the attacker and victim perspective and highlight some interesting findings. At the end I have also included some common IoC's for FreakzBrothers kits and Yara rules you can utilise when doing your own threat hunting.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[16Shop: Dissecting the Slimy Phish]]></title>
+        <id>https://sysgoblin.github.io/2020/05/12/_16shop-dissecting-the-slimy-phish.html</id>
+        <link href="https://sysgoblin.github.io/2020/05/12/_16shop-dissecting-the-slimy-phish.html">
+        </link>
+        <updated>2020-05-12T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article will cover a lot regarding 16Shop including its origins, change over time, a deep-dive in to how the kit works and other interesting artefacts which can be used to help you hunt 16Shop.]]></summary>
+    </entry>
+</feed>

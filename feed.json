@@ -1,0 +1,33 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "rm -rf lol",
+    "home_page_url": "https://sysgoblin.github.io",
+    "feed_url": "https://sysgoblin.github.io/feed.json",
+    "description": "...",
+    "items": [
+        {
+            "id": "https://sysgoblin.github.io/2020/05/12/_16shop-victim-analysis.html",
+            "url": "https://sysgoblin.github.io/2020/05/12/_16shop-victim-analysis.html",
+            "title": "16Shop Victim Analysis",
+            "summary": "{{$page.readingTime.text}}...",
+            "image": "https://user-images.githubusercontent.com/50568995/115514083-a9e58300-a27b-11eb-94cd-9b2500253213.png",
+            "date_modified": "2020-05-12T00:00:00.000Z"
+        },
+        {
+            "id": "https://sysgoblin.github.io/2020/08/10/freakzbrothers-revenge-of-the-nerdface.html",
+            "url": "https://sysgoblin.github.io/2020/08/10/freakzbrothers-revenge-of-the-nerdface.html",
+            "title": "FreakzBrothers: Revenge of the Nerd(face)",
+            "summary": "This post will go in to detail on how the kit works from both the attacker and victim perspective and highlight some interesting findings. At the end I have also included some common IoC's for FreakzBrothers kits and Yara rules you can utilise when doing your own threat hunting.",
+            "image": "https://user-images.githubusercontent.com/50568995/115612559-4db64980-a2e3-11eb-9b20-71779f1ae416.png",
+            "date_modified": "2020-08-10T00:00:00.000Z"
+        },
+        {
+            "id": "https://sysgoblin.github.io/2020/05/12/_16shop-dissecting-the-slimy-phish.html",
+            "url": "https://sysgoblin.github.io/2020/05/12/_16shop-dissecting-the-slimy-phish.html",
+            "title": "16Shop: Dissecting the Slimy Phish",
+            "summary": "This article will cover a lot regarding 16Shop including its origins, change over time, a deep-dive in to how the kit works and other interesting artefacts which can be used to help you hunt 16Shop.",
+            "image": "https://user-images.githubusercontent.com/50568995/115523452-fc776d00-a284-11eb-8eb1-49ebb0565272.gif",
+            "date_modified": "2020-05-12T00:00:00.000Z"
+        }
+    ]
+}
