@@ -1,7 +1,6 @@
 ---
-home: true
-heroText: 
-tagline: 
+# https://vitepress.dev/reference/default-theme-home-page
+layout: home
 ---
 
 <p align="center">
