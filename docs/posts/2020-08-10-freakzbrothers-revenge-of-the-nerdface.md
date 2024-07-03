@@ -3,7 +3,10 @@ title: "FreakzBrothers: Revenge of the Nerd(face)"
 date: 2020-08-10
 ---
 
+# {{$frontmatter.title}}
+
 ## Foreword
+
 This is a kit I have been tracking for some time now, and during that period have obtained dozens (if not hundreds) of copies, and detected thousands of deployments over the past few months.
 
 This post will go in to detail on how the kit works from both the attacker and victim perspective and highlight some interesting findings. At the end I have also included some common IoC's for FreakzBrothers kits and Yara rules you can utilise when doing your own threat hunting.
@@ -11,14 +14,17 @@ This post will go in to detail on how the kit works from both the attacker and v
 You may notice some similarities if you read my recent post on [16Shop](2020-05-12-16Shop-victim-analysis.md), as FreakzBrothers (despite being a different kit) shares some resources and techniques. As such, some chunks of this post are lifted straight from the other post.
 
 ## Background
+
 ### What is FreakzBrothers?
-FreakzBrothers is a popular "Phishing-as-a-service" (PaaS) kit which targets several popular brands, designed  for malicious actors to quickly and easily set up believable phishing pages targeting popular brands. 
+
+FreakzBrothers is a popular "Phishing-as-a-service" (PaaS) kit which targets several popular brands, designed for malicious actors to quickly and easily set up believable phishing pages targeting popular brands.
 
 As these kits are provided as a service, the individuals buying and using FreakzBrothers do not need to be skilled, thus widening the net for potential customers.
 
 FreakzBrothers appears to be sold and distributed via social media or private channels, as it a popular tactic for a lot of phishing kits originating from SE Asia.
 
 ### Cracked versions
+
 Unsurprisingly, in the criminal realm of phishing not everyone wants to pay for a service like FreakzBrothers and instead simply "crack" the kit and remove any functions which serve as to try and prevent unauthorised use.
 
 FreakzBrothers does employ some basic methods in order to try and ensure users are authenticated and approved by the author. However, there are versions where these controls have been removed and is re-sold and distributed across multiple channels. Many cracked versions have also been completely re-branded to remove association with FreakzBrothers, but the underlying code and functionality are the same.
@@ -26,6 +32,7 @@ FreakzBrothers does employ some basic methods in order to try and ensure users a
 ![image-16](https://user-images.githubusercontent.com/50568995/115612559-4db64980-a2e3-11eb-9b20-71779f1ae416.png)
 
 ## Analysis
+
 We're going to be looking at a kit which is a few versions behind, however is still commonly seen being deployed. This particular kit targets Amazon, a popular "flavour" of FreakzBrothers. Other targets include Apple, PayPal, Netflix, and recently USAA.
 
 ### Directory structure
@@ -304,19 +311,24 @@ AMAZON-FREAKZBROTHERS.V2.4.zip
         .htaccess
         index.php
 ```
+
 </details>
 <br>
 
 ### Evasion
+
 FreakzBrothers utilises several methods to attempt to evade detection or being scanned by bots. These methods include;
 
 #### .htaccess
+
 Within several directories a specially made Apache `.htaccess` file redirects or blocks visitors based on attributes of the request. If the request appears to come from a known crawler, scanner or what would appear to not be a potential victim, it will redirect the browser to a legitimate URL.
 
 #### CrawlerDetect
+
 [CrawlerDetect](https://github.com/JayBizzle/Crawler-Detect) is an open source tool written in PHP which aims to identify and stop known bots/crawlers/spiders based on the `user_agent` and `http_from` headers.
 
 #### Antibot
+
 Antibot is a popular service for many PaaS kits that deserves a deep-dive all of it's own. The service provides an api which can be queried along with an ip. If the ip has been associated with a bot or service which crawls for malicious sites it will block the request and present the requester with a 403 http response.
 
 As you can see from the below code taken from `blocker2.php` it will check for the existence of an `antibot.ini` file which should (if the user has paid for the service) contain an API key. If it exists, it allows the function `getUserIPszz()` to be called which checks the IP against antibot and logs the details if it is blocked.
@@ -324,18 +336,23 @@ As you can see from the below code taken from `blocker2.php` it will check for t
 ![image-17](https://user-images.githubusercontent.com/50568995/115612573-53ac2a80-a2e3-11eb-9f68-d77efc039025.png)
 
 #### Killbot
+
 Killbot is a recent addition to some versions of FreakzBrothers and is running as a direct competitor to antibot, touting additional functionality and cheaper costs. Killbot is present within the kit we are looking at, however I will be producing a separate write-up on this soon.
 
 #### Proxyblock
+
 FreakzBrothers also utilises some PHP code alongside a third-party api hosted by mind-media.com which will check the visitor's IP against a list of known proxy and VPN IP ranges. If there's a match, the visitor is presented with a 403 http response and details are logged.
 
 #### Parameters
+
 FreakzBrothers can utilise required arguments/parameters as part of a GET request when navigating to the phishing URL. This means that unless you know the param which is specified by the kit owner you will be unable to even reach the phishing page.
 
 This is covered in more detail below.
 
 ### Attack phase
+
 #### Clicking the link
+
 Attacks generally originate from an email purporting to be from Amazon asking the potential victim to check their account. Within these messages there will be a link to the malicious site which will be generally structured like `https://fakeamazon.domain.com/?param` with the `param` being specified within the configuration of the kit if this is enabled.
 
 When clicking the URL and connecting to the site, the landing page (`index.php`) performs several checks depending on the kit configuration.
@@ -360,19 +377,20 @@ If either of these options are enabled and the password/parameter is not correct
 
 If the request has provided the correct password or parameter, the visit is logged to `log_visitor.txt` and `total_click.txt` and the potential victim is then forwarded on to the first stage of the phishing attack.
 
-![image-27](https://user-images.githubusercontent.com/50568995/115613298-23b15700-a2e4-11eb-9e30-cd4135363f92.png)  
+![image-27](https://user-images.githubusercontent.com/50568995/115613298-23b15700-a2e4-11eb-9e30-cd4135363f92.png)
 _`$key` is a SHA1 hash of a base64 encoded string consisting of the victims IP and user agent_
 
 At this point in the phish, if the visitor has been identified as:
 
-* Not a bot
-* Not coming from a blacklisted IP
-* Not using a proxy/VPN service
-* Provided the correct "key"/parameter (generally from clicking on the URL from within a phishing email)
+- Not a bot
+- Not coming from a blacklisted IP
+- Not using a proxy/VPN service
+- Provided the correct "key"/parameter (generally from clicking on the URL from within a phishing email)
 
 They will be forwarded on to the phishing page.
 
 #### Amazon credentials
+
 The first stage phishing page presented to the user is an exact clone of Amazon's own "sign in" page.
 
 ![image-28](https://user-images.githubusercontent.com/50568995/115613484-58251300-a2e4-11eb-82d9-1ca7906043b1.png)
@@ -408,9 +426,9 @@ If the information provided by the victim passes these checks, the information i
 
 The IP of the victim is also logged to `total_login.txt` before then being directed to `locked.php`.
 
-At this stage depending on configuration, the victim is  informed their account has been locked, is suspended or needs to confirm an invoice, and that they are required to enter further information in order to resolve the issue.
+At this stage depending on configuration, the victim is informed their account has been locked, is suspended or needs to confirm an invoice, and that they are required to enter further information in order to resolve the issue.
 
-![image-30](https://user-images.githubusercontent.com/50568995/115613653-96223700-a2e4-11eb-869b-a2404f8e272e.png)  
+![image-30](https://user-images.githubusercontent.com/50568995/115613653-96223700-a2e4-11eb-869b-a2404f8e272e.png)
 _Account locked message, one of multiple potential warnings the victim will get_
 
 At this stage, when clicking "continue" the victim will either be directed straight to entering billing information, or if enabled, prompted to confirm their email credentials.
@@ -420,9 +438,10 @@ At this stage, when clicking "continue" the victim will either be directed strai
 In this instance, `get_email` is set to `IYA` so we are directed to a copy of our mail providers login portal.
 
 #### Email Credentials
+
 The `login_email.php` file called determines what resources to load depending on the results of a regex match against the provided email address.
 
-![image-40](https://user-images.githubusercontent.com/50568995/115613762-bd790400-a2e4-11eb-9b02-cbd1137c52c8.png)  
+![image-40](https://user-images.githubusercontent.com/50568995/115613762-bd790400-a2e4-11eb-9b02-cbd1137c52c8.png)
 _Code which determines which fake email sign-in portal to present_
 
 If there is no match (as in someone entered an email address associated with a domain not listed above), they are directed straight to the billing information stage.
@@ -434,6 +453,7 @@ In this example I entered a fake Gmail address, as such I have been directed to 
 After the victim enters their email credentials, the password is stored within the `$_SESSION` variable for later retrieval. The victim is then redirected back to an Amazon themed page and prompted for further information.
 
 #### Billing Information
+
 The PHP file `billing.php` is called and presented to the victim. This form requests for their billing information in order to "verify" their account. This form supports auto fill as well as providing drop down options for the country.
 
 ![image-32](https://user-images.githubusercontent.com/50568995/115613893-e4cfd100-a2e4-11eb-95eb-03c6ca0c390e.png)
@@ -441,6 +461,7 @@ The PHP file `billing.php` is called and presented to the victim. This form requ
 Once all the fields have been populated this information is submitted via `POST` to `card.php` and the victim is taken to the next stage.
 
 #### Credit Card Information
+
 All the information provided so far is `POST`'ed to this PHP file, and all information is saved to the `$_SESSION` variable.
 
 ![image-41](https://user-images.githubusercontent.com/50568995/115613933-f31ded00-a2e4-11eb-981e-059cc632a0b9.png)
@@ -532,6 +553,7 @@ The final step of this PHP script is to determine the next stage for the victim 
 In our example, `get_bank` is set to "Yups" so we are directed to `bank.php`.
 
 #### Bank Account Information
+
 The next stage of the attack asks the victim to verify their bank account information by populating the below form.
 
 ![image-35](https://user-images.githubusercontent.com/50568995/115614196-4db74900-a2e5-11eb-83e2-3b30249694bf.png)
@@ -571,6 +593,7 @@ The victims IP is then logged to `total_bank.txt` and directed to either `verify
 ![image-46](https://user-images.githubusercontent.com/50568995/115614292-70496200-a2e5-11eb-84b1-425001bdb6f0.png)
 
 #### Photos
+
 If `get_photo` is set to "Oks" then the victim is prompted to upload a photo of their card as another form of verification. This process exists is all known kits but the design is different depending on that targeted brand.
 
 ![image-36](https://user-images.githubusercontent.com/50568995/115614328-7c352400-a2e5-11eb-880a-19649c224167.png)
@@ -578,6 +601,7 @@ If `get_photo` is set to "Oks" then the victim is prompted to upload a photo of 
 Once the images are selected and the victim clicks update, they are processed by `submit_upload_cc.php` where the `content-type` is checked and stored within a directory called `upload` or `uploads`. Copies of these images are also sent to the threat actor via email as attachments.
 
 #### Completion
+
 At this point each phase of the phish has been completed and the victim is directed to `done.php`, informing them that their "account has been recovered".
 
 ![image-37](https://user-images.githubusercontent.com/50568995/115614392-940ca800-a2e5-11eb-8ca4-d84cb0553cd4.png)
@@ -585,18 +609,19 @@ At this point each phase of the phish has been completed and the victim is direc
 Then the victim is redirected to a legitimate Amazon sign in page.
 
 ### Admin Panel
+
 #### Logging in
-Over time the admin panel for FreakzBrothers has had a few iterations, with the "nerdface" (thanks [@dave_daves](https://twitter.com/dave_daves)) design being replaced for some time. Recently however it seems the majority of kits have this login panel design instead, opting for the cartoon image which appears to originate from `creative-tim.com`.  
+
+Over time the admin panel for FreakzBrothers has had a few iterations, with the "nerdface" (thanks [@dave_daves](https://twitter.com/dave_daves)) design being replaced for some time. Recently however it seems the majority of kits have this login panel design instead, opting for the cartoon image which appears to originate from `creative-tim.com`.
 Likely explanation is simply that the kit author took a template design from the source, leaving default images and icons in place.
 
-![image-compare_png](https://user-images.githubusercontent.com/50568995/115614735-f2d22180-a2e5-11eb-94f9-23bc73394c16.png)  
+![image-compare_png](https://user-images.githubusercontent.com/50568995/115614735-f2d22180-a2e5-11eb-94f9-23bc73394c16.png)
 _"FreakzBrothers X Amazon" panel (left), "Nerdface" panel (right)_
 
 The panel is generally located at `/admin/login.php`. All panels prompt the user for an email address and password, which upon entry are checked against a Firebase instance under the control of the of author of FreakzBrothers.
 
-![image-23](https://user-images.githubusercontent.com/50568995/115614828-0c736900-a2e6-11eb-8771-19cc5bbf1e6b.png)  
+![image-23](https://user-images.githubusercontent.com/50568995/115614828-0c736900-a2e6-11eb-8771-19cc5bbf1e6b.png)
 _Firebase config viewable within source of page_
-
 
 Request made to Firebase instance (left), Error when entering incorrect details (right)
 If the credentials are valid the user is then taken to the dashboard where they can administer the deployment or check recent activity.
@@ -604,17 +629,17 @@ If the credentials are valid the user is then taken to the dashboard where they 
 This authentication also serves as a form of ensuring the user is "licensed" to use the kit, in an effort to keep distribution and use under the control of the original author.
 
 #### Obfuscation
+
 The kit in of itself does not contain much in the way of obfuscation apart from the script under `/admin/login.php`. The code within this file has been altered by the now defunct MessPHP in order to try and dissuade alteration, however it is fairly trivial to get around this.
-
-
 
 Obfuscated (left), Deobfuscated (right)
 Deobfuscating the PHP code of the login page reveals there is a hidden token form which allows bypassing of the username/password field by entering a key which is defined in `/admin/vendor/config.php`
 
-![tokenform-1](https://user-images.githubusercontent.com/50568995/115614883-22812980-a2e6-11eb-95ed-784dc100d9e9.png)  
+![tokenform-1](https://user-images.githubusercontent.com/50568995/115614883-22812980-a2e6-11eb-95ed-784dc100d9e9.png)
 _Hidden token form_
 
 #### Dashboard
+
 Once authenticated the dashboard provides an overview of recent activity, statistics of victims and access to configuration data, antibot/killbot settings and the ability to reset local logs.
 
 ![image-19](https://user-images.githubusercontent.com/50568995/115614919-2d3bbe80-a2e6-11eb-9b97-ec2ffd037f03.png)
@@ -623,32 +648,35 @@ The statistic widgets contain a total count of entries from the appropriate logs
 
 These log files (similarly to [16Shop](2020-07-31-16Shop-dissecting-the-slimy-phish.md)) are also exposed, allowing anyone to view the contents.
 
-* `log_visitor.txt` Contains IP and OS info of the victim, as well as a timestamp for each stage of the phish they reached
-* `total_bank.txt` IP of victims who enter bank account credentials
-* `total_bin.txt` BIN number and OS of victims which entered bank details
-* `total_bot.txt` IP of any suspected bots which have been blocked
-* `total_cc.txt` IP of each victim which entered CC info
-* `total_click.txt` IP of anyone who accessed the phishing page with the correct `GET` parameter
-* `total_email.txt` IP of each victim which entered email credentials
-* `total_login.txt` IP of each victim which submitted credentials
-* `total_photocc.txt` IP of victims which uploaded CC photos
-* `total_photoid.txt` IP of victims which uploaded photo ID
-* `total_vbv.txt` IP of victims which passed "3D Secure" process
+- `log_visitor.txt` Contains IP and OS info of the victim, as well as a timestamp for each stage of the phish they reached
+- `total_bank.txt` IP of victims who enter bank account credentials
+- `total_bin.txt` BIN number and OS of victims which entered bank details
+- `total_bot.txt` IP of any suspected bots which have been blocked
+- `total_cc.txt` IP of each victim which entered CC info
+- `total_click.txt` IP of anyone who accessed the phishing page with the correct `GET` parameter
+- `total_email.txt` IP of each victim which entered email credentials
+- `total_login.txt` IP of each victim which submitted credentials
+- `total_photocc.txt` IP of victims which uploaded CC photos
+- `total_photoid.txt` IP of victims which uploaded photo ID
+- `total_vbv.txt` IP of victims which passed "3D Secure" process
 
-![image-21](https://user-images.githubusercontent.com/50568995/115614992-48a6c980-a2e6-11eb-8ef8-9b460aac691a.png)  
+![image-21](https://user-images.githubusercontent.com/50568995/115614992-48a6c980-a2e6-11eb-8ef8-9b460aac691a.png)
 _An exposed log_visitor.txt file_
 
 #### Settings
+
 This page contains the configuration data for the deployment, which is pulled from `main.php` as well as giving the capability to change it on the fly. Entering or selecting the new option and clicking on `save` updates the config, with these changes also reflected in `main.php`.
 
 ![image-20](https://user-images.githubusercontent.com/50568995/115615062-5c523000-a2e6-11eb-93dd-4d6bcdffb753.png)
 
 #### Antibot
+
 This page allows for entry of antibot/killbot API keys. Pasting keys in to the appropriate input and clicking `update` will test the key and then enable functionality of antibot or killbot checks against IP addresses accessing the site.
 
 ![image-22](https://user-images.githubusercontent.com/50568995/115615323-ba7f1300-a2e6-11eb-9efa-b77734891c35.png)
 
 ### Vulnerabilities
+
 FreakzBrothers kits (in all versions I have looked at) contain the same set of vulnerabilities which allows **full access to the panel and settings page with no authorisation**. As such, any unauthenticated individual could theoretically "take over" the deployment and divert credentials to a mailbox under their control.
 
 It would also be possible for someone to simply script this process, and delete the exfil email address every time it is updated so no credentials are ever sent to the attacker. Or even change the parameter whenever it's corrected so potential victims clicking on the phishing URL won't even be able to reach the phish.
@@ -658,9 +686,11 @@ I don't know who would do that though. 🙃
 There are also other vulnerabilities which exist in some versions of FreakzBrothers (including cracked versions) which are much more serious, however I will not be sharing details of these.
 
 ## Indicators
+
 Below are some IoC's commonly associated with FreakzBrothers along with some Yara rules I have written which can be utilised to scan any kits you may have for identification.
 
 ### Hashes
+
 Below are some common hashes for FreakzBrothers kit zip files in their various forms and versions. This also includes commonly found cracked kits which have been re-branded. (SHA-256)
 
 ```
@@ -726,6 +756,7 @@ A471D6EB2790C369BEBFAB4779EF344D16E0145E92ECC124F244ED8218FB77FB
 ```
 
 ### IP Addresses
+
 These IP's have been commonly associated with FreakzBrothers deployments and should be treated with suspicion. Some are also associated with dynamic DNS providers.
 
 ```
@@ -747,6 +778,7 @@ These IP's have been commonly associated with FreakzBrothers deployments and sho
 ```
 
 ### YARA Rules
+
 These rules can be ran against zip files or any repository of phishing kit zips to identify if they contain common artefacts of FreakzBrothers kits. The generic rule aims to capture any FreakzBrothers kit including cracked versions, whereas the specific rules will identify FreakzBrothers kits based on their targeted brand.
 
 <details>
@@ -773,18 +805,19 @@ rule PhishKit_FreakzBrothers
 
     condition:
         uint32(0) == 0x04034b50 and
-        $zip and 
+        $zip and
         all of ($dir*) and
         1 of ($conf_file*) and
         all of ($file*)
 }
 ```
+
 </details>
 <br>
 
 <details>
     <summary>Amazon</summary>
-    
+
 ```yara
 rule PhishKit_FreakzBrothers_Amazon
 {
@@ -806,18 +839,19 @@ rule PhishKit_FreakzBrothers_Amazon
 
     condition:
         uint32(0) == 0x04034b50 and
-        $zip and 
+        $zip and
         all of ($dir*) and
         1 of ($conf_file*) and
         all of ($file*)
 }
 ```
+
 </details>
 <br>
 
 <details>
     <summary>Apple</summary>
-    
+
 ```yara
 rule PhishKit_FreakzBrothers_Apple
 {
@@ -840,19 +874,20 @@ rule PhishKit_FreakzBrothers_Apple
 
     condition:
         uint32(0) == 0x04034b50 and
-        $zip and 
+        $zip and
         all of ($dir*) and
         1 of ($conf_file*) and
         all of ($file*) and
         ($icon1 or $icon2)
 }
 ```
+
 </details>
 <br>
 
 <details>
     <summary>PayPal</summary>
-    
+
 ```yara
 rule PhishKit_FreakzBrothers_PayPal
 {
@@ -876,25 +911,28 @@ rule PhishKit_FreakzBrothers_PayPal
 
     condition:
         uint32(0) == 0x04034b50 and
-        $zip and 
+        $zip and
         all of ($dir*) and
         1 of ($conf_file*) and
         all of ($file*)
 }
 ```
+
 </details>
 <br>
 
 ### Feeds
+
 For a feed of recent FreakzBrothers detections and exfil emails, check out the api over at [phishingreel.io](https://phishingreel.io/)
 
 ## Credits
+
 Shout out to the legends below for keeping up the good fight!
 
-* [@dave_daves](https://twitter.com/dave_daves)
-* [@JCyberSec_](https://twitter.com/JCyberSec_)
-* [@nullcookies](https://twitter.com/nullcookies)
-* [@aneilan](https://twitter.com/aneilan)
-* [@steved3](https://twitter.com/steved3)
-* [@n0p1ishing](https://twitter.com/n0p1ishing)
-* [@kb_intel](https://twitter.com/kb_intel)
+- [@dave_daves](https://twitter.com/dave_daves)
+- [@JCyberSec\_](https://twitter.com/JCyberSec_)
+- [@nullcookies](https://twitter.com/nullcookies)
+- [@aneilan](https://twitter.com/aneilan)
+- [@steved3](https://twitter.com/steved3)
+- [@n0p1ishing](https://twitter.com/n0p1ishing)
+- [@kb_intel](https://twitter.com/kb_intel)

@@ -3,13 +3,12 @@ title: "16Shop: Dissecting the Slimy Phish"
 date: 2020-05-12
 ---
 
-# {{$page.title}}
+# {{$frontmatter.title}}
 
 ![logo](https://user-images.githubusercontent.com/50568995/115523452-fc776d00-a284-11eb-8eb1-49ebb0565272.gif)
 
-<span style="color: #999;">{{$page.readingTime.text}}...</span>
-
 ## Foreword
+
 16Shop is not especially new in the world of phishing kits. It's been written about before, analysed many times over and has even been cracked and ripped to shreds by other threat actors within the phishing community.
 
 However, it's still arguably the most popular and successful "Phishing-as-a-service" (PaaS) kits around and it is constantly evolving, making it an interesting phish to try and catch. 🎣
@@ -19,12 +18,15 @@ This article will cover a lot regarding 16Shop including its origins, change ove
 For a live feed of 16Shop detections as well as other popular PaaS kits, please take a look at [phishingreel.io](https://phishingreel.io). (Full disclosure, PhishingReel was developed by myself and is now being maintained by [@thumbscrw](https://twitter.com/thumbscrw))
 
 ## Background
+
 ### 16what?
+
 ![wha?](https://media.giphy.com/media/ybcMkow8xLIrK/giphy.gif)
 
-16Shop is the name of a sophisticated Phishing kit distribution network, designed  for malicious actors to quickly and easily set up believable phishing pages targeting popular brands. As these kits are provided as a service, the individuals buying and using 16Shop do not need to be skilled, thus widening the net for potential customers.
+16Shop is the name of a sophisticated Phishing kit distribution network, designed for malicious actors to quickly and easily set up believable phishing pages targeting popular brands. As these kits are provided as a service, the individuals buying and using 16Shop do not need to be skilled, thus widening the net for potential customers.
 
 ### Evolution
+
 16Shop has been around for some time now, with articles reporting on the kit since late 2018. However it's likely 16Shop has been around for longer than this, with public discussions taking place in early 2018. This indicates the kit was likely being sold for a period before then.
 
 Originally 16Shop targeted only Apple and contained language localisation for Japan and the US, eventually adding more language options as time went on.Lures were in the form of phishing emails purporting to be from Apple, asking the user to confirm their login details and follow the link within an attached PDF document.
@@ -38,18 +40,20 @@ Just ahead of Amazon Prime day 2019 [McAfee](https://www.mcafee.com/blogs/other-
 Later, around Jan 2020 [ZeroFox](https://www.zerofox.com/blog/16shop-adds-paypal-american-express-to-their-catalog/) reported 16Shop had added kits targeting PayPal and AMEX to their available products, further diversifying their range of targets.
 
 ### Author
+
 Early versions of the kit contained code comments and artefacts attributing the creation of 16Shop to the alias "devilscream"
 
-![](https://www.mcafee.com/wp-content/uploads/2019/07/tags.png)  
+![](https://www.mcafee.com/wp-content/uploads/2019/07/tags.png)
 _Images courtesy of McAfee_
 
 > Devil Scream or Devils Cream?
 
 Through OSINT sources the alias DevilScreaM was publicly attributed to "Riswanda" from Indonesia. He has been previously responsible for defacing vulnerable Wordpress sites and later on producing tools and exploits for malicious activity. He is also an active member of the cyber crime gang "Indonesian Cyber Army".
 
-<blockquote class="twitter-tweet" align="center"><p lang="en" dir="ltr" align="center">The <a href="https://twitter.com/Apple?ref_src=twsrc%5Etfw">@Apple</a> <a href="https://twitter.com/hashtag/Phishing?src=hash&amp;ref_src=twsrc%5Etfw">#Phishing</a> kit author &#39;devilscream&#39; does a bad job of hiding his identity (or a good job of inventing a fake one).<br><br>He won a website design competition in early 2017 and is pictured below with his mother. I doubt she would be very proud of his most recent work. <a href="https://t.co/FUx8dezwWe">pic.twitter.com/FUx8dezwWe</a></p>&mdash; Phishing AI (@PhishingAi) <a href="https://twitter.com/PhishingAi/status/1011688773610979328?ref_src=twsrc%5Etfw">June 26, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet" align="center"><p lang="en" dir="ltr" align="center">The <a href="https://twitter.com/Apple?ref_src=twsrc%5Etfw">@Apple</a> <a href="https://twitter.com/hashtag/Phishing?src=hash&amp;ref_src=twsrc%5Etfw">#Phishing</a> kit author &#39;devilscream&#39; does a bad job of hiding his identity (or a good job of inventing a fake one).<br><br>He won a website design competition in early 2017 and is pictured below with his mother. I doubt she would be very proud of his most recent work. <a href="https://t.co/FUx8dezwWe">pic.twitter.com/FUx8dezwWe</a></p>&mdash; Phishing AI (@PhishingAi) <a href="https://twitter.com/PhishingAi/status/1011688773610979328?ref_src=twsrc%5Etfw">June 26, 2018</a></blockquote>
 
 ### Cracked Kits
+
 Unsurprisingly, in the criminal realm of phishing not everyone wants to pay for a service like 16Shop and instead simply "crack" the kit's validation methods in order to use the kit free of charge.
 
 There are many versions of cracked 16Shop kits floating around, most notably a version discovered recently by [Akamai](https://blogs.akamai.com/sitr/2019/05/16shop-commercial-phishing-kit-has-a-hidden-backdoor.html) which included a backdoor, allowing the individual who distributed the cracked version to obtain a copy of all victim credentials sent to a telegram bot under their control.
@@ -57,9 +61,11 @@ There are many versions of cracked 16Shop kits floating around, most notably a v
 16Shop code has also been taken and included within other popular PaaS kits recently such as FreakzBrothers kits, and also even been completely rebranded and distributed without any reference to its original source.
 
 ## Distribution
+
 Similarly to other PaaS kits, 16Shop is sold through an online store where individuals can register and purchase the kit in its various forms for fixed prices set by the author.
 
 ### Storefront
+
 The online store offers a glimpse at what is available for purchase, and prompts visitors to either sign in or register to access the "member" area.
 
 ![16shop-store-1](https://user-images.githubusercontent.com/50568995/115518271-e1562e80-a27f-11eb-8090-47c8d50e6af0.png)
@@ -77,12 +83,14 @@ The "shortlink" service is a recent addition, offering something akin to bit.ly 
 Other pages allow access to tools such as credential validators, IP reputation checkers and obfuscation tools which can all be used by "customers".
 
 ### Following the money
+
 Taking a look at the payment options again we can see there are 3 options available:
+
 1. Bank transfer (only available within Indonesia)
 2. Bitcoin
 3. Litecoin
-Selecting the bitcoin option presents us with a btc address of `1NyjuDCFpwEuzuWWAZWqt94maZSuTddx3P` to send payment to.  
-This particular address has been active since mid 2018 and to date has had 949 transactions totalling almost 3.6 BTC/$40k USD.
+   Selecting the bitcoin option presents us with a btc address of `1NyjuDCFpwEuzuWWAZWqt94maZSuTddx3P` to send payment to.
+   This particular address has been active since mid 2018 and to date has had 949 transactions totalling almost 3.6 BTC/$40k USD.
 
 ![btcwallet](https://user-images.githubusercontent.com/50568995/115518480-1cf0f880-a280-11eb-8fd3-160ad49506dd.png)
 [Wallet history](https://www.blockchain.com/btc/address/1NyjuDCFpwEuzuWWAZWqt94maZSuTddx3P)
@@ -95,16 +103,18 @@ Practically all funds that go in to this wallet are shortly thereafter transferr
 The litecoin wallet `MHg1zYpLNrsRWkb5nGSAWvLeStdamKJ8AA` tells a similar tale. So far netting around a modest 12 LTC, which has subsequently been transferred to another wallet which held 129,233 LTC.
 
 ## 16Shop Dissection
+
 This section will cover a lot of in-depth information pertaining to how the kit works, the information obtained from victims, how it avoids detection and reversing the source code and functionality of the kit.
 
 Not all kits will necessarily function the same as below, as each targeted brand has their own unique elements. However as the latest addition to the 16Shop portfolio is AMEX, we'll be taking a look at this kit.
 
 ### Directory structure
+
 Just so we all know what we are working with here, here is the structure of the AMEX kit.
 
 <details>
     <summary>tree output (long!)</summary>
-    
+
 ```
 16Shop-Amex-New-V1.zip.
 |   .DS_Store
@@ -563,28 +573,33 @@ Just so we all know what we are working with here, here is the structure of the 
         onetime.dat
         whitelist.dat
 ```
-    
-</details>  
+
+</details>
 <br>
 
 There are a lot of resources within this kit, however the more interesting directories we'll be focusing on are;
-* The root directory
-* `admin`
-* `security`
-* `myca`
+
+- The root directory
+- `admin`
+- `security`
+- `myca`
 
 ### Avoiding detection
+
 ![](https://media.giphy.com/media/QA88yMhazfDI4/giphy.gif)
 
 16Shop kits utilise several methods to attempt and evade detection which may prompt a takedown of their deployment. Some of these controls are further covered in the C2 section which explores how the kit interacts with 16Shop's api to alter its behaviour.
 
 #### .htaccess
+
 Within several directories a specially made Apache `.htaccess` file (almost 10,000 lines!) redirects or blocks visitors based on attributes of the request. If the request appears to come from a known crawler, scanner or what would appear to not be a potential victim, it will redirect the browser to a legitimate URL.
 
 #### CrawlerDetect
+
 [CrawlerDetect](https://github.com/JayBizzle/Crawler-Detect) is an open source tool written in PHP which aims to identify and stop known bots/crawlers/spiders based on the `user_agent` and `http_from` headers.
 
 #### Antibot
+
 Antibot is a popular service for many PaaS kits that deserves a deep-dive all of it's own. The service provides an api which can be queried along with an ip. If the ip has been associated with a bot or service which crawls for malicious sites it will block the request and present the requester with a 403 http response.
 
 As you can see from the below code taken from `antibot.php` it will check for the existence of an `antibot.ini` file which should (if the user has paid for the service) contain an API key. If it exists, it allows the function `getUserIPszz()` to be called which checks the IP against antibot and logs the details if it is blocked.
@@ -592,34 +607,38 @@ As you can see from the below code taken from `antibot.php` it will check for th
 ![antibotcode-1](https://user-images.githubusercontent.com/50568995/115519161-d780fb00-a280-11eb-80ca-b92fb5e6ad69.png)
 
 #### Killbot
+
 Killbot is a recent addition to some versions of 16Shop and is running as a direct competitor to antibot, touting additional functionality and cheaper costs. Killbot code is not present in this kit we are looking at, however I will be producing a write-up on this soon.
 
 #### Proxyblock
+
 16Shop also utilises some PHP code alongside a third-party api hosted by `mind-media.com` which will check the visitor's IP against a list of known proxy and VPN IP ranges. If there's a match, the visitor is presented with a 403 http response and details are logged.
 
 #### Arguments
-16Shop can utilise required arguments/parameters as part of a GET request when navigating to the domain. This means that unless you know the param which is specified by the kit owner you will be unable to even reach the phishing page.  
+
+16Shop can utilise required arguments/parameters as part of a GET request when navigating to the domain. This means that unless you know the param which is specified by the kit owner you will be unable to even reach the phishing page.
 This is covered in more detail further on.
 
 ### DRM
-Similarly to other big players on the PaaS market, 16Shop includes basic digital rights management and licensing capabilities to try and prevent individuals from running off with the source code and deploying the kit as many times as they like. Likewise this allows further control from the 16Shop author and monetisation options.  
+
+Similarly to other big players on the PaaS market, 16Shop includes basic digital rights management and licensing capabilities to try and prevent individuals from running off with the source code and deploying the kit as many times as they like. Likewise this allows further control from the 16Shop author and monetisation options.
 This control mainly consists of various functions and obfuscated PHP code, stemming from `index.php` in the root of the kit directory.
 
 ![image-4](https://user-images.githubusercontent.com/50568995/115519346-07300300-a281-11eb-8ccc-cc2f37e47564.png)
 
-Looking at `index.php` it's clear there is not much there, however it is including `load.php` and calling a function.  
+Looking at `index.php` it's clear there is not much there, however it is including `load.php` and calling a function.
 Opening `load.php` we can see it contains obfuscated code to try and prevent further analysis.
 
-![drmcode](https://user-images.githubusercontent.com/50568995/115519467-2333a480-a281-11eb-8684-3dcc840d4ae0.png)  
+![drmcode](https://user-images.githubusercontent.com/50568995/115519467-2333a480-a281-11eb-8684-3dcc840d4ae0.png)
 _Some code truncated for brevity_
 
 Taking the variables and unescaping/converting from HEX and Octal reveals the variables and functions being declared:
 
 ![obfus1](https://user-images.githubusercontent.com/50568995/115519534-33e41a80-a281-11eb-9fc1-f513f07dc287.png)
 
-From here we can easily deobfuscate the eval taking place from  
-`$kMjE4NDcxODYxs($det($wNTg0NDQ1MjE4z($gMjY1MzcwMjYf($aNzk0MjAxOTMyd("7U0Jrts...yN9gO3/6o/w8="))))))`  
-to  
+From here we can easily deobfuscate the eval taking place from
+`$kMjE4NDcxODYxs($det($wNTg0NDQ1MjE4z($gMjY1MzcwMjYf($aNzk0MjAxOTMyd("7U0Jrts...yN9gO3/6o/w8="))))))`
+to
 `hex2bin(str_rot13(gzinflate(str_rot13(base64_decode("7U0Jrts...yN9gO3/6o/w8="))))));`
 
 Calling these functions in reverse reveals further obfuscated code. (Bonus points for spotting the easter egg within the variable names)
@@ -633,6 +652,7 @@ After a few more rounds of deobfuscation we end up with the following code:
 This code is mainly responsible for checking the deployment has been registered- and if it has, will return and process the code required to allow the kit to function correctly. This alongside some other PHP embedded in the kit serves as a method of ensuring any deployments have to go via 16Shops C2 to be validated and work as intended.
 
 ### C2
+
 ![](https://media.giphy.com/media/8EmeieJAGjvUI/giphy.gif)
 
 As we can now see the api endpoint and data being sent to 16Shops C2, we can simply call it directly and capture the response to see what is happening behind the scenes when browsing to the root URL of a 16Shop deployment.
@@ -648,30 +668,31 @@ There is a lot happening within this chunk of code so let's break it down;
 ![getsetting](https://user-images.githubusercontent.com/50568995/115519839-7b6aa680-a281-11eb-9cc4-7b13459dbfd7.png)
 
 This function will return a json response which contains the configuration options for the deployment as configured by the actor. For example;
+
 ```json
-{                                           
+{
   "email_result": "email@domain.com",
   "login_result": "email@domain.com",
-  "lock_platform": "",                      
-  "sender_mail": "admin@16shop.us",         
-  "site_parameter": "param",               
-  "site_password": "16shop",                
-  "site_param_on": "on",                    
-  "site_pass_on": "",                       
-  "send_login": "on",                       
-  "get_photo": "on",                        
-  "get_vbv": "on",                          
-  "get_email": "on",                        
-  "get_bank": "on",                         
-  "onetime": "on",                          
-  "block_host": "on",                       
-  "block_ua": "on",                         
-  "block_iprange": "on",                    
-  "block_isp": "on",                        
-  "block_vpn": "on",                        
-  "letter": "unusual_activity",             
-  "double_cc": "",                          
-  "block_referrer": "on"                      
+  "lock_platform": "",
+  "sender_mail": "admin@16shop.us",
+  "site_parameter": "param",
+  "site_password": "16shop",
+  "site_param_on": "on",
+  "site_pass_on": "",
+  "send_login": "on",
+  "get_photo": "on",
+  "get_vbv": "on",
+  "get_email": "on",
+  "get_bank": "on",
+  "onetime": "on",
+  "block_host": "on",
+  "block_ua": "on",
+  "block_iprange": "on",
+  "block_isp": "on",
+  "block_vpn": "on",
+  "letter": "unusual_activity",
+  "double_cc": "",
+  "block_referrer": "on"
 }
 ```
 
@@ -690,21 +711,24 @@ The following code block is responsible for then directing the potential victim 
 ![image-1](https://user-images.githubusercontent.com/50568995/115520080-b10f8f80-a281-11eb-9460-7a681c496394.png)
 
 From the above code we can see the following steps are taking place
-* If the setting `site_param_on` is on, get the specified `site_parameter` stored in `$setting`
-* Check the specified parameter has been supplied as an argument within the GET request (i.e. `https://exampledomain.com/?param` with param matching the setting).
-* If it's present set `$key` to the PHP session key
-* If it's not present, log and respond with 403
-* If `$key` has been set, log the request and set the location to `https://exampledomain.com/myca?key=$key`
+
+- If the setting `site_param_on` is on, get the specified `site_parameter` stored in `$setting`
+- Check the specified parameter has been supplied as an argument within the GET request (i.e. `https://exampledomain.com/?param` with param matching the setting).
+- If it's present set `$key` to the PHP session key
+- If it's not present, log and respond with 403
+- If `$key` has been set, log the request and set the location to `https://exampledomain.com/myca?key=$key`
 
 At this point in the phish, if the visitor has been identified as:
-* Not a bot
-* Not coming from a blacklisted IP
-* Not using a proxy/VPN service
-* Provided the correct "key"/parameter (generally from clicking on the URL from within a phishing email)
-They will be forwarded on to the phishing page.
+
+- Not a bot
+- Not coming from a blacklisted IP
+- Not using a proxy/VPN service
+- Provided the correct "key"/parameter (generally from clicking on the URL from within a phishing email)
+  They will be forwarded on to the phishing page.
 
 ### Attack phase
-When a potential victim lands on the first stage phishing page, `session.php` is called which checks for the existence of a valid `$key` which was declared before being redirected.  
+
+When a potential victim lands on the first stage phishing page, `session.php` is called which checks for the existence of a valid `$key` which was declared before being redirected.
 This is to prevent guessing or visiting the phishing page directly without first providing the valid parameter.
 
 ![keycode](https://user-images.githubusercontent.com/50568995/115520281-e74d0f00-a281-11eb-922d-30635d843a7b.png)
@@ -712,6 +736,7 @@ This is to prevent guessing or visiting the phishing page directly without first
 After "de-fanging" the kit and changing the output of some functions, we are able to easily run this locally to simulate the process that the victim would follow. Any malicious external calls have been removed and all results are output to local files instead of emails.
 
 The process of this phish breaks down to the following stages:
+
 1. Victim prompted for user ID and password for their AMEX account
 1. Victim prompted for full name and billing address
 1. Victim prompted for credit card information
@@ -719,9 +744,10 @@ The process of this phish breaks down to the following stages:
 1. Victim redirected to legitimate `americanexpress.com` landing page
 
 #### AMEX login
+
 The potential victim is prompted with an almost exact copy of AMEX's own account login screen, with even various assets such as images being pulled from `americanexpress.com` directly.
 
-Upon entering a user id and password a POST is sent to `login.php` which takes that POST data and constructs message which is then sent to the kit owner or email address declared within `$setting`.  
+Upon entering a user id and password a POST is sent to `login.php` which takes that POST data and constructs message which is then sent to the kit owner or email address declared within `$setting`.
 The message contents would appear as below in the threat actors mailbox:
 
 ```
@@ -742,10 +768,11 @@ User Agent		: ".$user_agent."
 #--------------------------[ PRIVATE ]-----------------------------#
 ```
 
-After sending this information, the IP of the victim is logged within 2 files, `total_login.txt` and `log_visitor.txt`. These are referenced further on when we take a look at the admin panel of 16Shop.  
+After sending this information, the IP of the victim is logged within 2 files, `total_login.txt` and `log_visitor.txt`. These are referenced further on when we take a look at the admin panel of 16Shop.
 The next location the victim is directed to is `verification?request_type=LogonHandler&Face=en_US&key=$key`
 
 #### Billing information
+
 This page requests the potential victims billing address information including full name and date of birth.
 
 ![billingaddress](https://user-images.githubusercontent.com/50568995/115523124-a6a2c500-a284-11eb-8d04-37339530a0ba.png)
@@ -753,6 +780,7 @@ This page requests the potential victims billing address information including f
 Once the fields have been populated and the victim clicks continue, there is another POST sent to `verification_payment.php` where the form data is temporarily stored within a hidden input field.
 
 #### CC info
+
 On this next page, the victim is prompted for their credit card information.
 
 ![ccinfo](https://user-images.githubusercontent.com/50568995/115523252-c9cd7480-a284-11eb-9539-10ca885accf6.png)
@@ -805,11 +833,12 @@ If the data is not valid or the user did not complete the form, they are redirec
 The victim IP is once again logged to the following log files: `total_cc.txt`, `total_bin.txt`, `log_visitor.txt`. After this logging takes place, the victim is then redirected to `link_email.php`.
 
 #### Email credentials
+
 The next screen prompts the victim to "linked an email account", and generically asks for their email credentials.
 
 ![linkemail](https://user-images.githubusercontent.com/50568995/115523426-f6818c00-a284-11eb-9f89-ccc7f3dac60b.png)
 
-Once the information is entered, this data is submitted via POST to `submit_email.php` which again, constructs an email to the threat actor and logs the victim IP to `total_email.php` and `log_visitor.php`.  
+Once the information is entered, this data is submitted via POST to `submit_email.php` which again, constructs an email to the threat actor and logs the victim IP to `total_email.php` and `log_visitor.php`.
 The mail body would appear as below:
 
 ```
@@ -832,6 +861,7 @@ User Agent		: ".$user_agent."
 After the logging is complete, the victim is redirected to `done.php`.
 
 #### Completion
+
 This is the final page in the attack phase of this phish. The victim is thanked for their information and then redirected to the legitimate AMEX account login page.
 
 ![thanks](https://user-images.githubusercontent.com/50568995/115523820-609a3100-a285-11eb-82f6-ebd641c8f7e2.png)
@@ -849,8 +879,10 @@ There are many functions at play here. At a high level, the contents of `onetime
 And with that, the victim interaction is done and any sensitive information will be with the threat actor behind the deployment.
 
 ### Admin panel
+
 #### Dashboard
-16Shop kits also come with an admin panel of sorts, which allows for the threat actor to access an overview/dashboard of recent events and how successful the deployment has been.  
+
+16Shop kits also come with an admin panel of sorts, which allows for the threat actor to access an overview/dashboard of recent events and how successful the deployment has been.
 Navigating to `/admin/login.php` presents the following login page.
 
 ![adminlogin](https://user-images.githubusercontent.com/50568995/115524345-ef0eb280-a285-11eb-976b-1235381b08e7.png)
@@ -859,7 +891,7 @@ Looking at the PHP code, upon entering the key, username and password the follow
 
 ![adminloginfunc](https://user-images.githubusercontent.com/50568995/115524357-f59d2a00-a285-11eb-9409-782a31647782.png)
 
-This takes the provided key, username and password and submits them to an API endpoint controlled by the 16Shop author. These details are then checked and if valid, the `$server_output` will contain "valid".  
+This takes the provided key, username and password and submits them to an API endpoint controlled by the 16Shop author. These details are then checked and if valid, the `$server_output` will contain "valid".
 Humorously enough, an invalid request results in the following response.
 
 ![invalidcall](https://user-images.githubusercontent.com/50568995/115524407-0352af80-a286-11eb-8b72-565c27d34d54.png)
@@ -869,28 +901,34 @@ When validated, the operator will be presented with a dashboard containing stati
 ![paneldashboard](https://user-images.githubusercontent.com/50568995/115524438-09e12700-a286-11eb-92d2-911f22452327.png)
 
 Each menu item on the left hand side of the page offers different views allowing for:
-* Adding or amending the antibot API key.
-* Listing IP and OS information on visitors and victims
-* Information on blocked visitors and bots
-* Resetting the various log files which victim/bot IP information is logged to.
-Outside of these capabilities the dashboard simply serves as a portal for the operator to gather basic statistics and information about the deployment. All victim information is sent directly to the threat actor via email and is not stored locally on web host.
+
+- Adding or amending the antibot API key.
+- Listing IP and OS information on visitors and victims
+- Information on blocked visitors and bots
+- Resetting the various log files which victim/bot IP information is logged to.
+  Outside of these capabilities the dashboard simply serves as a portal for the operator to gather basic statistics and information about the deployment. All victim information is sent directly to the threat actor via email and is not stored locally on web host.
 
 #### Statistic sources
+
 The stats presented on the admin dashboard are pulled directly from various log files written to during the attack phase.
-* `log_visitor.txt` Contains IP and OS info of the victim, as well as a timestamp for each stage of the phish they reached
-* `total_bin.txt` BIN number and OS of victims which entered bank details
-* `total_cc.txt` IP of each victim which entered CC info
-* `total_email.txt` IP of each victim which entered email credentials
-* `total_login.txt` IP of each victim which submitted credentials
-These files do not contain credentials or data which may lead the reader to attribute the information to a victims identity, however all of these log files are exposed for each 16Shop deployment. This means anyone can view the contents of these log files.
+
+- `log_visitor.txt` Contains IP and OS info of the victim, as well as a timestamp for each stage of the phish they reached
+- `total_bin.txt` BIN number and OS of victims which entered bank details
+- `total_cc.txt` IP of each victim which entered CC info
+- `total_email.txt` IP of each victim which entered email credentials
+- `total_login.txt` IP of each victim which submitted credentials
+  These files do not contain credentials or data which may lead the reader to attribute the information to a victims identity, however all of these log files are exposed for each 16Shop deployment. This means anyone can view the contents of these log files.
 
 ![logexample](https://user-images.githubusercontent.com/50568995/115524528-241b0500-a286-11eb-89af-2d142d9766f9.png)
 
 Some time ago I ran a small experiment scraping these exposed log files and performing some analysis on a sample of the data from over a week period. If you're interested in what was discovered take a look at the post [here](./2020-05-12-16Shop-victim-analysis.md).
 
 ## IoC's
+
 ### Hashes
+
 Below are some common hashes for 16Shop kit zip files in their various forms and versions. This also includes commonly found cracked kits which have not been re-branded. (SHA-256)
+
 ```
 D59D89BDDB51425E1ADCF064A67697D491C296DAA8AED35F99A6F63075559D44
 ECBC631A09CD2C4B2C6DBE393301AFC6D2AC545FAF9E599F6DCA296FDD4F1112
@@ -937,7 +975,9 @@ F7306A94AE651D9FEE774396E61EE231B66F686C0FB6482E8F6DD6FCAD47E097
 ```
 
 ### IP addresses
+
 These ip's have been commonly associated with 16Shop deployments or C2 calls and should be treated with suspicion. Many of them are associated with dynamic DNS providers.
+
 ```
 178.128.104.179
 128.199.154.155
@@ -956,6 +996,7 @@ These ip's have been commonly associated with 16Shop deployments or C2 calls and
 ```
 
 ### Yara rules
+
 These rules can be ran against zip files or any repository of phishing kit zips to identify if they contain common artefacts of 16Shop kits. The generic rule aims to capture any 16Shop kit including cracked versions, whereas the specific rules will identify 16Shop kits based on their targeted brand.
 
 <details>
@@ -981,12 +1022,13 @@ rule PhishKit_16Shop
 
     condition:
         uint32(0) == 0x04034b50 and
-        $zip and 
+        $zip and
         ($server_ini or $setting_ini) and
         $file1 and $file2 and
         $dir1 and $dir2
 }
 ```
+
 </details>
 <br>
 
@@ -1015,13 +1057,14 @@ rule PhishKit_16Shop_Apple
 
     condition:
         uint32(0) == 0x04034b50 and
-        $zip and 
+        $zip and
         ($server_ini or $setting_ini) and
         all of ($file*) and
         all of ($dir*) and
         all of ($ap_file*)
 }
 ```
+
 </details>
 <br>
 
@@ -1051,7 +1094,7 @@ rule PhishKit_16Shop_Amazon
 
     condition:
         uint32(0) == 0x04034b50 and
-        $zip and 
+        $zip and
         ($server_ini or $setting_ini) and
         all of ($file*) and
         all of ($dir*) and
@@ -1059,6 +1102,7 @@ rule PhishKit_16Shop_Amazon
         all of ($am_file*)
 }
 ```
+
 </details>
 <br>
 
@@ -1090,7 +1134,7 @@ rule PhishKit_16Shop_PayPal
 
     condition:
         uint32(0) == 0x04034b50 and
-        $zip and 
+        $zip and
         ($server_ini or $setting_ini) and
         all of ($file*) and
         all of ($dir*) and
@@ -1098,6 +1142,7 @@ rule PhishKit_16Shop_PayPal
         2 of ($pp_file*)
 }
 ```
+
 </details>
 <br>
 
@@ -1127,7 +1172,7 @@ rule PhishKit_16Shop_Amex
 
     condition:
         uint32(0) == 0x04034b50 and
-        $zip and 
+        $zip and
         ($server_ini or $setting_ini) and
         all of ($file*) and
         all of ($dir*) and
@@ -1135,17 +1180,21 @@ rule PhishKit_16Shop_Amex
         all of ($amex_file*)
 }
 ```
+
 </details>
 <br>
 
 ### Feeds
-For a feed of recent 16Shop detections and exfil emails, check out the api over at [phishingreel.io](https://phishingreel.io)  
+
+For a feed of recent 16Shop detections and exfil emails, check out the api over at [phishingreel.io](https://phishingreel.io)
 
 ## Epilogue
+
 Thanks for reading this c h o n k of a post. Here's a shout out to some awesome peeps who deserve a follow for helping review this content and also helping the fight against phishing!
-* [@dave_daves](https://twitter.com/dave_daves)
-* [@JCyberSec_](https://twitter.com/JCyberSec_)
-* [@nullcookies](https://twitter.com/nullcookies)
-* [@aneilan](https://twitter.com/aneilan)
-* [@steved3](https://twitter.com/steved3)
-* [@n0p1ishing](https://twitter.com/n0p1ishing)
+
+- [@dave_daves](https://twitter.com/dave_daves)
+- [@JCyberSec\_](https://twitter.com/JCyberSec_)
+- [@nullcookies](https://twitter.com/nullcookies)
+- [@aneilan](https://twitter.com/aneilan)
+- [@steved3](https://twitter.com/steved3)
+- [@n0p1ishing](https://twitter.com/n0p1ishing)

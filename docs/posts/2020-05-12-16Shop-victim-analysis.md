@@ -1,15 +1,14 @@
 ---
+layout: doc
 title: 16Shop Victim Analysis
 date: 2020-05-12
 ---
 
-# {{$page.title}}
-
-<span style="color: #999;">{{$page.readingTime.text}}...</span>
+# {{$frontmatter.title}}
 
 The most popular commercial phishing kit being detected by [PhishingReel](https://twitter.com/phishingreel) at the moment is **16Shop**, making up nearly 40% of all detections. I thought it may be interesting to do some analysis on the victim log data I have collected from over the past week.
 
-If you are not familiar with 16Shop or what it is, I recommend you have a read through [this](https://twitter.com/JCyberSec_/status/1255902497782317056) thread by [@JCyberSec_](https://twitter.com/jcybersec_) which gives a great overview of what it is and its history.
+If you are not familiar with 16Shop or what it is, I recommend you have a read through [this](https://twitter.com/JCyberSec_/status/1255902497782317056) thread by [@JCyberSec\_](https://twitter.com/jcybersec_) which gives a great overview of what it is and its history.
 
 I've made this analysis from a sample of the total data set, consisting of victim information from just over 100 unique deployments from the past week. The data scraped consists of IP/geo/device information for those which have visited the phishing site, entered credentials or even supplied bank and credit card information.
 
@@ -17,26 +16,26 @@ I have parsed this data and will be focusing on analysing where the victim has e
 
 After cleansing the data and removing duplicates, I produced some basic statistics.
 
-|||
-|---|:---|
-| Unique domains | 105 |
-| Countries | 135 | 
-| IP addresses | 13 |
-| ISP's | 147 |
-| IP's | 13735 |
+|                          |           |
+| ------------------------ | :-------- |
+| Unique domains           | 105       |
+| Countries                | 135       |
+| IP addresses             | 13        |
+| ISP's                    | 147       |
+| IP's                     | 13735     |
 | **Total victims logged** | **13936** |
 
-&nbsp;  
-&nbsp;  
+&nbsp;
+&nbsp;
 
 ## Victim geolocation
 
-From an initial eyeball of the victim data it was apparent that the US was the most targeted country out of these deployments, making up almost **60%** of all victims. I took the victim data and extrapolated the below graph of the top 10 countries by victim count.  
+From an initial eyeball of the victim data it was apparent that the US was the most targeted country out of these deployments, making up almost **60%** of all victims. I took the victim data and extrapolated the below graph of the top 10 countries by victim count.
 
 _Click details for full results._
 ![16shop-victim-analysis-bins_by_country](https://user-images.githubusercontent.com/50568995/115514083-a9e58300-a27b-11eb-94cd-9b2500253213.png)
 
-<details> 
+<details>
 <table class="tg">
 <thead>
   <tr>
@@ -587,27 +586,28 @@ _Click details for full results._
 
 ## US victim analysis
 
-Out of the US victims it was also clear a vast majority of them were accessing these phishing pages via mobile devices. 📲  
+Out of the US victims it was also clear a vast majority of them were accessing these phishing pages via mobile devices. 📲
 This is not entirely surprising, as use of mobile devices to browse the web continues to increase. It is also generally being harder for mobile users to discern legitimate and malicious websites within a mobile browser- especially when these kits are responsive/"mobile friendly".
 
 ![16shop-victim-analysis-device_pie_chart](https://user-images.githubusercontent.com/50568995/115514347-e913d400-a27b-11eb-8f28-c5956fa776a9.png)
 
 A top 10 of the ISP information shows these are primarily from consumer home and mobile internet providers.
 
-| ISP | Count |
-|---|:---|
-|Comcast Cable Communications, LLC|1412|
-|Charter Communications|1379|
-|Verizon Wireless|817|
-|AT&T Corp.|762|
-|T-Mobile USA, Inc.|600|
-|AT&T Mobility LLC|583|
-|Verizon Business|435|
-|Sprint Communications, Inc.|315|
-|Cox Communications Inc.|290|
-|CenturyLink Communications, LLC|252|
+| ISP                               | Count |
+| --------------------------------- | :---- |
+| Comcast Cable Communications, LLC | 1412  |
+| Charter Communications            | 1379  |
+| Verizon Wireless                  | 817   |
+| AT&T Corp.                        | 762   |
+| T-Mobile USA, Inc.                | 600   |
+| AT&T Mobility LLC                 | 583   |
+| Verizon Business                  | 435   |
+| Sprint Communications, Inc.       | 315   |
+| Cox Communications Inc.           | 290   |
+| CenturyLink Communications, LLC   | 252   |
 
 From looking at the less common ISP and IP information, it's also possible to identify some potential victims from particular locations or businesses. Some of these included individuals located at:
+
 - **Decatur Manor Healthcare**, a care facility for the chronically or mentally ill.
 - **University of Texas Medical Branch**
 - **University of Arkansas for Medical Sciences**
@@ -615,9 +615,9 @@ From looking at the less common ISP and IP information, it's also possible to id
 - **Bickerstaff Parham LLC**, a real estate firm
 - **Cornell University**
 
-The victim logs contained data on those which had supplied bank details, however, these are not able to be correlated with login activity. From the data collected it was evident that bank details had been provided 3389 times with (unsurprisingly) the majority of these details originating from the US.  
-  
-_Click details for full results._  
+The victim logs contained data on those which had supplied bank details, however, these are not able to be correlated with login activity. From the data collected it was evident that bank details had been provided 3389 times with (unsurprisingly) the majority of these details originating from the US.
+
+_Click details for full results._
 
 ![16shop-victim-analysis-bins_by_country](https://user-images.githubusercontent.com/50568995/115514522-1496be80-a27c-11eb-91bb-66645444bdfa.png)
 
@@ -1012,78 +1012,80 @@ _Click details for full results._
 
 ![16shop-victim-analysis-bins_by_bank](https://user-images.githubusercontent.com/50568995/115514606-2e380600-a27c-11eb-90e3-8f99fac30354.png)
 
-&nbsp; 
-&nbsp; 
+&nbsp;
+&nbsp;
 It was also possible to produce a top 10 of banks whose customers had fell victim to these phishing sites.
 
 ## Trends within the data
 
 During analysis it became clear there were certain similarities between the victim logs.
 
-My focus had been on analysing victim data where the user had entered sensitive information. However, all clicks/visits to the sites are also logged, regardless of if the user has entered information at any point.  
+My focus had been on analysing victim data where the user had entered sensitive information. However, all clicks/visits to the sites are also logged, regardless of if the user has entered information at any point.
 A common thread between a large portion of these deployments were the first few visits.
 
-From looking at the first visitor from each deployment, almost **40%** came from Indonesian IP addresses before then logging US victims or victims based in other geolocations.  
+From looking at the first visitor from each deployment, almost **40%** came from Indonesian IP addresses before then logging US victims or victims based in other geolocations.
 This would indicate a portion of the threat actors "test" their deployment when it's live, before sending out phishing/smishing to their intended victims. It also evidences that the larger customer base for 16Shop is based in Indonesia.
 
 Some of these "visitors" can be tracked across several domains, indicating the same threat actor was behind it's creation.
 
-| Domain                                                                           | IP Address      | Browser          | OS         | ISP |
-| :---                                                                              | ---             | ---              | ---        | --- |
-| `amazon.accountalert01.com`                                                        | 110.136.88.251  | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `amazon.notificationalertappsdys908239d.tecxies.com`                               | 110.136.88.251  | Firefox          | Windows 10 | PT Telkom Indonesia |
-| `asd-paypal124-help1.ga`                                                           | 110.137.112.18  | Firefox          | Windows 10 | PT Telkom Indonesia |
-| `manage-account.paypalinsc.com`                                                    | 110.137.220.119 | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `websecure-mailupdate-account.verification.kloutscormnvr.com`                      | 110.138.150.92  | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `websecure.account-verification.myloveyouflo.com`                                  | 110.138.151.198 | Chrome           | Windows 10 |  |
-| `update-amazon.com.serv01-updateamazon.com`                                        | 110.138.96.172  | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `sign-ins-aces2try-phaypal1.com`                                                   | 112.78.180.121  | Chrome           | Windows 10 | Biznet ISP |
-| `amzaon.com.verificationcentrehomesupport.hyeoapld.com`                            | 114.122.70.144  | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
-| `limited.paypalservice.customer-support.it.heasads.com`                            | 114.124.139.210 | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
-| `cslivesupport.manage-appservice.com`                                              | 114.124.165.246 | Firefox          | Windows 10 | PT. Telekomunikasi Selular Indonesia |
-| `security-verification.fashionablemidnight.com`                                    | 114.125.12.110  | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
-| `signin-webverifyacc-vg9eapple.serveusers.com`                                     | 125.161.107.254 | Chrome           | Windows 7  | PT Telkom Indonesia |
-| `cgs-informationupdate.apps.com.snezenieea.com`                                    | 125.161.137.118 | Handheld Browser | Android    | PT Telkom Indonesia |
-| `secure01-amazon.serveirc.com`                                                     | 125.167.50.218  | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `cg-summary.verivicacionlockedappservice.com`                                      | 140.213.15.132  | Handheld Browser | iPhone     | PT XL Axiata |
-| `notice-applestoremanagers.gheafem.com`                                            | 180.241.152.234 | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `manage-scure-login.acc-brsae.com`                                                 | 180.241.161.183 | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `appleid.apple.com-noreply-informations.186341735184331.org`                       | 180.241.45.178  | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `signin.secure.account.support.center.tld100.tstrr11.com`                          | 180.242.235.36  | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `manageaccount-appleid.com.stokestrategy.com`                                      | 180.247.45.136  | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `service.verification-accountid.appsidga.com`                                      | 180.248.123.152 | Handheld Browser | iPhone     | PT Telkom Indonesia |
-| `service-account.usmislead.com`                                                    | 180.251.2.158   | Chrome           | Windows 10 | PT Telekomunikasi Indonesia |
-| `amazon-secured-signed-in-uknown-access-from-unauthorise-device.avshgbupdsko.com`  | 180.251.58.144  | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `service.account.costumecharge.business`                                           | 182.1.13.46     | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
-| `service.account.dedicatejurisdiction.com`                                         | 182.1.13.46     | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
-| `service.account.ealogoeitai.com`                                                  | 182.1.15.157    | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
-| `security-verification.flexiblewire.info`                                          | 182.1.16.90     | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
-| `amazon.verificationalertnotificationappshomeen.yupxis.com`                        | 182.1.75.30     | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
-| `en.amazon.verificationalertaccountaiueugdhaasddxs.fafanms.com`                    | 182.1.75.30     | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
-| `en.secureaccountlimited-paypal.com`                                               | 182.253.219.4   | Firefox          | Windows 10 | Biznet ISP |
-| `manageamazonaccountservicemmzjftsass.vkjnkwd.com`                                 | 36.68.23.62     | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `livesupportcsdatacenter.mertgthea.com`                                            | 36.68.4.104     | Firefox          | Windows 10 | PT Telkom Indonesia |
-| `manage.unlock-services.accounts.myappleid.pellocks.com`                           | 36.69.4.51      | Firefox          | Windows 10 | PT Telekomunikasi Indonesia |
-| `amazon.com-webserviceincresolvedetaild.amdsupportcustomers.com`                   | 36.75.238.40    | Firefox          | Windows 10 | PT Telekomunikasi Indonesia |
-| `app.sign.in.amazon.jp.langh-jp.j4r.p.wafoainc.com`                                | 36.76.167.184   | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `sign-account-paypal-configure.coreymniez.com`                                     | 36.84.227.169   | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `amazon-reportdaily-service.theworkpc.com`                                         | 36.85.217.57    | Firefox          | Windows 10 | PT Telkom Indonesia |
-| `secureserver-amazonredirectwebview.kozow.com`                                     | 36.85.218.204   | Firefox          | Windows 10 | PT Telkom Indonesia |
-| `amazon.com-limitedcenter.webserviceidrecoverycentersupporte.com`                  | 36.85.219.37    | Firefox          | Windows 10 | PT Telkom Indonesia |
-| `mail-helpdeskupdateaccountserv8091.upgandegan.com`                                | 36.88.126.200   | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `intl-costumer.limited.6y123-sys.info`                                             | 36.90.159.35    | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `user.auth-recover.limited-account.online.pply.534-tyr.net`                        | 36.90.159.35    | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `user.limited-account.reactivate.97ter.com`                                        | 36.90.159.35    | Chrome           | Windows 10 | PT Telkom Indonesia |
-| `support.mailapp.secuirity-verifikey.ascavc.com`                                   | 36.90.76.191    | Handheld Browser | iPhone     | PT Telkom Indonesia |
-| `safeandmanage.accinfo-formlimitation2020.tembelekgarings.com`                     | 36.90.88.240    | Chrome           | Windows 10 | PT Telkom Indonesia |
+| Domain                                                                            | IP Address      | Browser          | OS         | ISP                                  |
+| :-------------------------------------------------------------------------------- | --------------- | ---------------- | ---------- | ------------------------------------ |
+| `amazon.accountalert01.com`                                                       | 110.136.88.251  | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `amazon.notificationalertappsdys908239d.tecxies.com`                              | 110.136.88.251  | Firefox          | Windows 10 | PT Telkom Indonesia                  |
+| `asd-paypal124-help1.ga`                                                          | 110.137.112.18  | Firefox          | Windows 10 | PT Telkom Indonesia                  |
+| `manage-account.paypalinsc.com`                                                   | 110.137.220.119 | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `websecure-mailupdate-account.verification.kloutscormnvr.com`                     | 110.138.150.92  | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `websecure.account-verification.myloveyouflo.com`                                 | 110.138.151.198 | Chrome           | Windows 10 |                                      |
+| `update-amazon.com.serv01-updateamazon.com`                                       | 110.138.96.172  | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `sign-ins-aces2try-phaypal1.com`                                                  | 112.78.180.121  | Chrome           | Windows 10 | Biznet ISP                           |
+| `amzaon.com.verificationcentrehomesupport.hyeoapld.com`                           | 114.122.70.144  | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
+| `limited.paypalservice.customer-support.it.heasads.com`                           | 114.124.139.210 | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
+| `cslivesupport.manage-appservice.com`                                             | 114.124.165.246 | Firefox          | Windows 10 | PT. Telekomunikasi Selular Indonesia |
+| `security-verification.fashionablemidnight.com`                                   | 114.125.12.110  | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
+| `signin-webverifyacc-vg9eapple.serveusers.com`                                    | 125.161.107.254 | Chrome           | Windows 7  | PT Telkom Indonesia                  |
+| `cgs-informationupdate.apps.com.snezenieea.com`                                   | 125.161.137.118 | Handheld Browser | Android    | PT Telkom Indonesia                  |
+| `secure01-amazon.serveirc.com`                                                    | 125.167.50.218  | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `cg-summary.verivicacionlockedappservice.com`                                     | 140.213.15.132  | Handheld Browser | iPhone     | PT XL Axiata                         |
+| `notice-applestoremanagers.gheafem.com`                                           | 180.241.152.234 | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `manage-scure-login.acc-brsae.com`                                                | 180.241.161.183 | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `appleid.apple.com-noreply-informations.186341735184331.org`                      | 180.241.45.178  | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `signin.secure.account.support.center.tld100.tstrr11.com`                         | 180.242.235.36  | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `manageaccount-appleid.com.stokestrategy.com`                                     | 180.247.45.136  | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `service.verification-accountid.appsidga.com`                                     | 180.248.123.152 | Handheld Browser | iPhone     | PT Telkom Indonesia                  |
+| `service-account.usmislead.com`                                                   | 180.251.2.158   | Chrome           | Windows 10 | PT Telekomunikasi Indonesia          |
+| `amazon-secured-signed-in-uknown-access-from-unauthorise-device.avshgbupdsko.com` | 180.251.58.144  | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `service.account.costumecharge.business`                                          | 182.1.13.46     | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
+| `service.account.dedicatejurisdiction.com`                                        | 182.1.13.46     | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
+| `service.account.ealogoeitai.com`                                                 | 182.1.15.157    | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
+| `security-verification.flexiblewire.info`                                         | 182.1.16.90     | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
+| `amazon.verificationalertnotificationappshomeen.yupxis.com`                       | 182.1.75.30     | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
+| `en.amazon.verificationalertaccountaiueugdhaasddxs.fafanms.com`                   | 182.1.75.30     | Chrome           | Windows 10 | PT. Telekomunikasi Selular Indonesia |
+| `en.secureaccountlimited-paypal.com`                                              | 182.253.219.4   | Firefox          | Windows 10 | Biznet ISP                           |
+| `manageamazonaccountservicemmzjftsass.vkjnkwd.com`                                | 36.68.23.62     | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `livesupportcsdatacenter.mertgthea.com`                                           | 36.68.4.104     | Firefox          | Windows 10 | PT Telkom Indonesia                  |
+| `manage.unlock-services.accounts.myappleid.pellocks.com`                          | 36.69.4.51      | Firefox          | Windows 10 | PT Telekomunikasi Indonesia          |
+| `amazon.com-webserviceincresolvedetaild.amdsupportcustomers.com`                  | 36.75.238.40    | Firefox          | Windows 10 | PT Telekomunikasi Indonesia          |
+| `app.sign.in.amazon.jp.langh-jp.j4r.p.wafoainc.com`                               | 36.76.167.184   | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `sign-account-paypal-configure.coreymniez.com`                                    | 36.84.227.169   | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `amazon-reportdaily-service.theworkpc.com`                                        | 36.85.217.57    | Firefox          | Windows 10 | PT Telkom Indonesia                  |
+| `secureserver-amazonredirectwebview.kozow.com`                                    | 36.85.218.204   | Firefox          | Windows 10 | PT Telkom Indonesia                  |
+| `amazon.com-limitedcenter.webserviceidrecoverycentersupporte.com`                 | 36.85.219.37    | Firefox          | Windows 10 | PT Telkom Indonesia                  |
+| `mail-helpdeskupdateaccountserv8091.upgandegan.com`                               | 36.88.126.200   | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `intl-costumer.limited.6y123-sys.info`                                            | 36.90.159.35    | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `user.auth-recover.limited-account.online.pply.534-tyr.net`                       | 36.90.159.35    | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `user.limited-account.reactivate.97ter.com`                                       | 36.90.159.35    | Chrome           | Windows 10 | PT Telkom Indonesia                  |
+| `support.mailapp.secuirity-verifikey.ascavc.com`                                  | 36.90.76.191    | Handheld Browser | iPhone     | PT Telkom Indonesia                  |
+| `safeandmanage.accinfo-formlimitation2020.tembelekgarings.com`                    | 36.90.88.240    | Chrome           | Windows 10 | PT Telkom Indonesia                  |
 
-&nbsp;  
+&nbsp;
 
 In total there were 38246 visits recorded with 29551 of those being unique. With the total victim count, this shows these 16Shop kits have had an average **47% success rate**. 😰
 
-&nbsp;  
-&nbsp;  
+&nbsp;
+&nbsp;
+
 ## Summary of findings
+
 > 60% of all victims are US based
 
 > The vast majority of victims were using mobile devices
@@ -1092,4 +1094,4 @@ In total there were 38246 visits recorded with 29551 of those being unique. With
 
 > Deployments have an average 47% click to phish ratio
 
-These results go to show that commercial kits like 16Shop are highly targeted, effective and simple to use. This effectively lowers the bar for potential fraudsters wanting to make a quick buck. 
+These results go to show that commercial kits like 16Shop are highly targeted, effective and simple to use. This effectively lowers the bar for potential fraudsters wanting to make a quick buck.
